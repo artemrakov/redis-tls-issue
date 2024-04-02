@@ -12,39 +12,6 @@ pub struct RedisClient {
 
 impl RedisClient {
     pub fn new(url: &str) -> Result<Self, Box<dyn std::error::Error>> {
-        // let root_cert_file = File::open("/Users/arakov/code/redis/tests/tls/ca.crt")
-        //     .expect("cannot open private cert file");
-        // let mut root_cert_vec = Vec::new();
-        // BufReader::new(root_cert_file)
-        //     .read_to_end(&mut root_cert_vec)
-        //     .expect("Unable to read ROOT cert file");
-        //
-        // let cert_file = File::open("/Users/arakov/code/redis/tests/tls/redis.crt")
-        //     .expect("cannot open private cert file");
-        // let mut client_cert_vec = Vec::new();
-        // BufReader::new(cert_file)
-        //     .read_to_end(&mut client_cert_vec)
-        //     .expect("Unable to read client cert file");
-        //
-        // let key_file = File::open("/Users/arakov/code/redis/tests/tls/redis.key")
-        //     .expect("cannot open private key file");
-        // let mut client_key_vec = Vec::new();
-        // BufReader::new(key_file)
-        //     .read_to_end(&mut client_key_vec)
-        //     .expect("Unable to read client key file");
-        //
-        // let client = Client::build_with_tls(
-        //     url,
-        //     TlsCertificates {
-        //         client_tls: Some(ClientTlsConfig {
-        //             client_cert: client_cert_vec,
-        //             client_key: client_key_vec,
-        //         }),
-        //         root_cert: None,
-        //     },
-        // )
-        // .expect("Unable to build client");
-
         let client = Client::open(url).unwrap();
         let pool = r2d2::Pool::builder()
             .max_size(10)
