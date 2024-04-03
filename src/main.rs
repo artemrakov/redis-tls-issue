@@ -2,7 +2,6 @@ use std::thread::sleep;
 use std::time::{Duration, Instant};
 
 use bb8_redis::{bb8, RedisConnectionManager};
-use redis::Client;
 
 #[tokio::main]
 async fn main() {
@@ -10,7 +9,12 @@ async fn main() {
     // let client = Client::open("rediss://127.0.0.1:6379#insecure").unwrap();
 
     let manager = RedisConnectionManager::new("rediss://127.0.0.1:6379#insecure").unwrap();
-    let pool = bb8::Pool::builder().build(manager).await.unwrap();
+    let pool = bb8::Pool::builder()
+        .max_size(10)
+        .min_idle(3)
+        .build(manager)
+        .await
+        .unwrap();
 
     println!("Connected to redis. Starting the loop");
     let value = vec![0; 20 * 1024 * 1024]; // 20MB value
